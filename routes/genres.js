@@ -3,20 +3,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const Router =  express.Router();
-const joi = require('joi');
+// const joi = require('joi');
 
-const Genres = mongoose.model('genre',new mongoose.Schema({
-    name : {
-
-        type : String,
-        required : true,
-        minlength : 5,
-        maxlength : 50
-
-    }
-  }
- )
-);
+const {Genres ,Validate} = require('../models/genre');
 
 
 Router.get('/',async(req,res)=>{
@@ -72,14 +61,5 @@ Router.delete('/:id', async(req,res)=>{
      genres.splice(index, 1);
      return res.send(genres);   
 });
-
-async function validateGenres(genre){
-
-    const Schema = {
-        name : joi.string().min(4).required()
-    };
-    return joi.validate(genre, Schema);
-}
-
 
 module.exports = Router;
