@@ -1,4 +1,9 @@
 const mongoose = require('mongoose');
+const config = require('config');
+
+const express = require('express');
+const joi = require('joi');
+joi.objectId = require('joi-objectid')(joi);
 
 const genres = require('./routes/genres');
 const customers = require('./routes/customers');
@@ -7,9 +12,6 @@ const auth = require('./routes/auth');
 const movies = require('./routes/movies');
 const rentals = require('./routes/rentals');
 
-const config = require('config');
-
-const express = require('express');
 
 const app = express();
 

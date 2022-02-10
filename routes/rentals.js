@@ -7,6 +7,10 @@ const { Movie} = require('../models/movie');
 const { Rental ,validate} = require('../models/rental');
 const { Customer} = require('../models/customer');
 
+const Fawn = require('fawn');
+// Fawn.init(mongoose);
+
+
 
 Router.get('/',async(req,res)=>{
     const rental = await  Rental.find().sort('-dateOut');
