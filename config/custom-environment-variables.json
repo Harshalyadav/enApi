@@ -1,3 +1,3 @@
 {
-    "jwtPrivateKey" : "process.env.vidly_jwtPrivateKey"
+    "jwtPrivateKey" : "vidly_jwtPrivateKey"
 }

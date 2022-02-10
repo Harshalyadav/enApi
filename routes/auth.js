@@ -35,8 +35,8 @@ Router.post('/',async(req,res)=>{
 
 function Validate(req){
     const schema = {
-        email : joi.string().email().required(),
-        password : joi.string().min(4).max(10).required()
+        email : joi.string().email().min(5).max(255).required(),
+        password : joi.string().min(4).max(225).required()
 
     };
     return joi.validate(req,schema);

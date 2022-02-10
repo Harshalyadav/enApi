@@ -19,10 +19,10 @@ require('dotenv').config();
 
 // console.log(process.env);
 
-//if(!config.get('jwtPrivatekey')){
- //   console.error('FATAL ERROR : //jwtPrivateKey is not define.');
- //   process.exit(1);
-//}
+if(!config.get('jwtPrivateKey')){
+   console.error('FATAL ERROR : //jwtPrivateKey is not define.');
+   process.exit(1);
+}
 
 
 app.use(express.json());
