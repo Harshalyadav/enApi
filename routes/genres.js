@@ -5,43 +5,51 @@ const mongoose = require('mongoose');
 const Router =  express.Router();
 // const joi = require('joi');
 
-const {Genres ,Validate} = require('../models/genre');
+const {Genre ,validateGenre} = require('../models/genre');
 
 
 Router.get('/',async(req,res)=>{
-    const genres = await Genres.find().sort('name');
-    return res.send(genres);
+    const genres = await Genre.find().sort('name');
+     res.send(genres);
 });
 
 Router.get('/:id',async(req,res)=>{
-    const genres = await Genres.findById(req.params.id);
+    const genres = await Genre.findById(req.params.id);
     if(!genres)
     return res.status(404).send('The genre with the given id');
 
-    return res.send(genres);
+     res.send(genres);
 });
 
-Router.post('/',async(req,res)=>{
-     const {error} = validateGenres(req.body);
-     if(error)
-     return res.status(400).send(error.details[0].message)
+Router.post('/new',async(req,res)=>{
 
-     let genre = new Genres({
+     const {error} = validateGenre(req.body);
+     if(error)
+     return res.status(400).send(error)
+    
+
+     let genre = new  Genre({
          name : req.body.name
         });
-    const result = await genre.save();
-    return res.send(result);
+
+     genre = await genre.save();
+     res.send(genre);
 });
 
 //Update name and
 
 Router.put('/:id', async(req,res)=>{
       
-      const {error} = validateGenres(req.body);
+      const {error} = validateGenre(req.body);
       if(error)
-      return res.status(400).send(error.details[0].message);
+      return res.status(400).send(error);
 
-      const genres = await Genres.findByIdAndUpdate(id);
+      const genres = await Genre.findByIdAndUpdate(req.params.id,
+        {
+            name : req.body.name
+        },{
+            new : true
+        });
 
       if(!genres)
       return res.status(404).send("The genre with given id");
@@ -52,12 +60,12 @@ Router.put('/:id', async(req,res)=>{
 
 Router.delete('/:id', async(req,res)=>{
     
-    const genres = await Genres.findByIdAndRemove(id);
+    const genres = await Genre.findByIdAndRemove(req.params.id);
 
     if(!genres)
     return res.status(404).send("The genres with the given id ");
 //dout
-    const index = await Genres.indexOf(genres);
+    const index = await Genre.indexOf(genres);
      genres.splice(index, 1);
      return res.send(genres);   
 });

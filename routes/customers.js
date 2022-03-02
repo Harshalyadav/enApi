@@ -9,7 +9,7 @@ const Router = express.Router();
 
 Router.get('/',async(req,res)=>{
     
-    const customer = new Customer.find().sort('name');
+    const customer = await Customer.find().sort('name');
 
     return res.send(customer);
 
@@ -17,12 +17,12 @@ Router.get('/',async(req,res)=>{
 
 Router.post('/', async(req,res)=>{
           
-      const { error } = validateCustomer(req.body);
+      const { error } = Validate(req.body);
       
-      if(!error)
-      return res.status(400).send(error.details[0].message);
+      if(error)
+      return res.status(400).send(error);
 
-      const customer = new Customer(
+      let customer = new Customer(
           {
               name : req.body.name,
               phone : req.body.phone,
@@ -31,7 +31,7 @@ Router.post('/', async(req,res)=>{
           }
           );
 
-          customer = await customer.save();
+           await customer.save();
           return res.send(customer);
 
 });

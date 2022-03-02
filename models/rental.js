@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
-const joi = require('joi');
-
+const Joi = require('joi');
+Joi.objectId = require('joi-objectid')(Joi)
 
 const Rental =  mongoose.model('Rental', new mongoose.Schema({
+
       customer : {
           type : new mongoose.Schema({
              name : {
@@ -28,8 +29,8 @@ const Rental =  mongoose.model('Rental', new mongoose.Schema({
 
         required : true
     },
-    movie : {
-      type : new mongoose.Schema({
+      movie : {
+        type : new mongoose.Schema({
           title : {
               type : String,
               maxlength : 255,
@@ -48,21 +49,21 @@ const Rental =  mongoose.model('Rental', new mongoose.Schema({
       ,
       required : true
 
-        },
-
-    dateOut : {
-      type : Date,
-      default : Date.now, 
-      required :  true  
-       },
-
-    dateReturned : {
-        type : Date,
-        required : true
     },
-    rentalFee : {
-        type : Number,
-        min : 0,
+
+      dateOut : {
+        type : Date,
+        default : Date.now, 
+        required :  true  
+   },
+
+      dateReturned : {
+         type : Date,
+         required : true
+    },
+      rentalFee : {
+         type : Number,
+         min : 0,
     }
 
 
@@ -70,13 +71,20 @@ const Rental =  mongoose.model('Rental', new mongoose.Schema({
 }));
 
 
-function rentalValidate(rental){
+async function rentalValidate(rental){
+    
+    try {
 
-    const schema = {
-        customer : joi.objectId().required(),
-        movie : joi.objectId().required
+    const schema = Joi.object({
+        customer : Joi.objectId().required(),
+        movie : Joi.objectId().required
+    })
+    
+    const value = await schema.validateAsync({ rental ,schema});
     }
-    return  joi.validate(schema,rental);
+ catch (err) { 
+    console.log(err);
+  }
 }
 
 

@@ -17,10 +17,11 @@ const app = express();
 
 require('dotenv').config();
 
-// console.log(process.env);
+// console.log(jwtPrivateKey);
+// console.log();
 
 if(!config.get('jwtPrivateKey')){
-   console.error('FATAL ERROR : //jwtPrivateKey is not define.');
+   console.error('FATAL ERROR : jwtPrivateKey is not define.');
    process.exit(1);
 }
 
@@ -28,16 +29,16 @@ if(!config.get('jwtPrivateKey')){
 app.use(express.json());
 app.use('/api/genres',genres);
 app.use('/api/customers',customers);
-app.use('/routes/users',users);
+app.use('/api/users',users);
 app.use('/api/auth',auth);
 app.use('/api/movies',movies);
 app.use('/api/rentals',rentals);
 
-const port = process.env.PORT_NO;
+const port = process.env.PORT || 8080;
 
 
-app.listen(3000 ,()=>
-    console.log('listening on port 🚀')
+app.listen(port,()=>
+    console.log(`listening on port 🚀  ${port}`)
 );
 
 

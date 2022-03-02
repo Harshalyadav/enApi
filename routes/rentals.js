@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 
 const Router = express.Router();
 
-const { Movie} = require('../models/movie');
-const { Rental ,validate} = require('../models/rental');
-const { Customer} = require('../models/customer');
+const { Movie } = require('../models/movie');
+const { Rental , validate } = require('../models/rental');
+const { Customer } = require('../models/customer');
 
 const Fawn = require('fawn');
 // Fawn.init(mongoose);
@@ -19,10 +19,11 @@ Router.get('/',async(req,res)=>{
 
 
 
-Router.post('/',async(req,res)=>{
+Router.post('/', async(req, res)=>{
+
     const {error} = validate(req.body);
     if(!error)
-    return res.status(400).send(error.details[0].message);
+    return res.status(400).send(error);
     
     const customer = await Customer.findById(req.body.customerId);
 
@@ -44,7 +45,7 @@ Router.post('/',async(req,res)=>{
             phone : customer.phone,
 
         },
-        mvoie :{
+        movie :{
             _id : movie._id,
             title : movie.title,
             dailyRentalRate : movie.dailyRentalRate,

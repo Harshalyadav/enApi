@@ -24,13 +24,20 @@ const User = mongoose.model('user', new mongoose.Schema({
 }));
 
 async function userValidate(user){
+    
     const schema ={
         name : joi.string().min(5).max(50).required(),
         email : joi.string().required().email(),
         password : joi.string().min(4).max(10).required()
 
     }; 
-    return joi.validate(user,schema);
+    
+try {
+    const value = await schema.validateAsync({ user , schema });
+}
+catch (err) { 
+    console.log("Invalid");
+ }
 }
 
 exports.User = User;

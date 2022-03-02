@@ -16,8 +16,8 @@ const Customer = mongoose.model('customer', new mongoose.Schema({
     phone : {
         type : String,
         required : true ,
-        minlength : 5,
-        maxlength : 10
+        minlength : 10,
+        maxlength : 14
     },
     password : {
         type : String,
@@ -27,16 +27,21 @@ const Customer = mongoose.model('customer', new mongoose.Schema({
 }));
 
 
-function validateCustomer(customer){
+async function validateCustomer(customer){
     
     const schema = {
-        name : joi.string.min(4).max(50).required(),
+        name : joi.string().min(4).max(50).required(),
         phone : joi.string().min(10).max(14).required(),
         isGold : joi.boolean(),
-        password : joi.string.min(6).max(10).required()
+        password : joi.string().min(6).max(10).required()
     }
-
-    return joi.validate(customer, schema);
+    
+try {
+    const value = await schema.validateAsync({customer ,schema});
+}
+catch (err) {
+    console.log("😀");
+ }
 }
 
 exports.Customer = Customer;
