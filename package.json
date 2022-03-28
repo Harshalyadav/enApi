@@ -4,17 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watch --verbose ",
+    "start": "node index.js "
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "compression": "^1.7.2",
     "config": "^3.3.7",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
     "express-async-errors": "^2.1.0",
     "fawn": "^2.1.5",
+    "helmet": "^3.11.0",
     "joi": "^13.1.0",
     "joi-objectid": "^4.0.2",
     "jsonwebtoken": "^8.5.1",
