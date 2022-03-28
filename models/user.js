@@ -1,11 +1,15 @@
 const mongoose = require('mongoose');
-const joi = require('joi');
+const Joi = require('joi');
+const config = require('config');
+const jwt = require('jsonwebtoken');
 
-const User = mongoose.model('user', new mongoose.Schema({
+
+const userSchema = new mongoose.Schema({
      name : {
          type : String,
          minlength :5,
          maxlength :50,
+         trim : true,
          required : true
       },
      email :{
@@ -19,26 +23,35 @@ const User = mongoose.model('user', new mongoose.Schema({
          required : true,
          minlength : 4,
          maxlength : 10,
-     }
+     },
+     isAdmin : Boolean
 
-}));
+});
+
+userSchema.methods.generateAuthToken = function() { 
+    const token = jwt.sign({ _id: this._id, isAdmin: this.isAdmin }, config.get('jwtPrivateKey'));
+    return token;
+  }
+
+  const User = mongoose.model('User', userSchema);
+
+
 
 async function userValidate(user){
     
-    const schema ={
-        name : joi.string().min(5).max(50).required(),
-        email : joi.string().required().email(),
-        password : joi.string().min(4).max(10).required()
-
-    }; 
+  
     
-try {
-    const value = await schema.validateAsync({ user , schema });
+    const schema =Joi.object({
+        name : Joi.string().min(5).max(50).required(),
+        email : Joi.string().required().email(),
+        password : Joi.string().min(4).max(10).required()
+        
+    }); 
+    
+      const value =  schema.validate({ user,schema });
+    //   return value;
 }
-catch (err) { 
-    console.log("Invalid");
- }
-}
+
 
 exports.User = User;
 exports.validate = userValidate;

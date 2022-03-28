@@ -5,17 +5,24 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
-const  {User ,validate} = require('../models/user');
+const  {User , validate} = require('../models/user');
 const Router =express.Router();
 
+const auth = require('../middleware/auth');
 
-Router.post('/',async(req,res)=>{
+Router.get('/me',auth,async(req,res)=>{
+    const user = await User.findById(req.user._id).select('_password');
 
-    const {error} = validate(req.body);
+    res.send(user);
+})
+
+Router.post('/', async(req,res)=>{
+
+    const { error } = validate(req.body);
     if(error)
-    return res.statusMessage(400).send(error.details[0].message);
+    return res.status(400).send(error);
 
-    const user = new User.findOne({email: req.body.email});
+    let user = await User.findOne({email: req.body.email});
     if(user)
     return res.status(400).send("user already existe");
     

@@ -73,12 +73,12 @@ const Rental =  mongoose.model('Rental', new mongoose.Schema({
 
 async function rentalValidate(rental){
     
-    try {
-
-    const schema = Joi.object({
-        customer : Joi.objectId().required(),
-        movie : Joi.objectId().required
-    })
+  
+  const schema = Joi.object({
+    customer : Joi.objectId().required(),
+    movie : Joi.objectId().required()
+  })
+  try {
     
     const value = await schema.validateAsync({ rental ,schema});
     }
