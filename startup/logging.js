@@ -14,11 +14,11 @@ winston.handleExceptions(
     throw ex;
   });
   
-  winston.add(winston.transports.File, { filename: 'logfile.log' });
-//   winston.add(winston.transports.MongoDB, { 
-//     db: 'mongodb://localhost/moviesDB',
-//     level: 'info'
-//   });  
+   winston.add(winston.transports.File, { filename: 'logfile.log' });
+   winston.add(winston.transports.MongoDB, { 
+    db: 'process.env.MONGODB_ACCESS_TOKEN_SECRET',
+    level: 'info'
+  });  
 
 
 };

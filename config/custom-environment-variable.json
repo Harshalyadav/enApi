@@ -1,0 +1,4 @@
+{
+    "jwtPrivateKey" : "process.env.JWT_ACCESS_TOKEN_SECRET",
+    "db" :"MONGODB_ACCESS_TOKEN_SECRET"
+}
