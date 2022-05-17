@@ -4,7 +4,7 @@ const config = require('config');
 const jwt = require('jsonwebtoken');
 
 
-const userSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
      name : {
          type : String,
          minlength :5,
@@ -28,12 +28,12 @@ const userSchema = new mongoose.Schema({
 
 });
 
-userSchema.methods.generateAuthToken = function() { 
+UserSchema.methods.generateAuthToken = function() { 
     const token = jwt.sign({ _id: this._id, isAdmin: this.isAdmin }, config.get('jwtPrivateKey'));
     return token;
   }
 
-  const User = mongoose.model('User', userSchema);
+  const UserModel = mongoose.model('User', UserSchema);
 
 
 
@@ -53,5 +53,5 @@ async function userValidate(user){
 }
 
 
-exports.User = User;
+exports.User = UserModel;
 exports.validate = userValidate;
